@@ -1,83 +1,82 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿
 using Microsoft.AspNetCore.Mvc;
+using ShuttleProject.Models;
+using ShuttleProject.Models.Data;
 
 namespace ShuttleProject.Controllers
 {
     public class RoutesController : Controller
     {
-        // GET: RoutesController
+        private AppDbContext _appDbContext;
+
+        public RoutesController(AppDbContext appDbContext)
+        {
+            _appDbContext = appDbContext;
+        }
         public IActionResult Index()
         {
-            return View();
+
+            List<Routes> routes = _appDbContext.Routes.OrderBy(r => r.RouteId).ToList();
+            return View(routes);
         }
 
-        // GET: RoutesController/Details/5
-        public IActionResult Details(int id)
+        public IActionResult Add()
         {
             return View();
         }
 
-        // GET: RoutesController/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: RoutesController/Create
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult Add([FromForm] Routes request)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+
+            _appDbContext.Routes.Add(request);
+            _appDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: RoutesController/Edit/5
+
         public IActionResult Edit(int id)
         {
-            return View();
+
+            Routes routes = _appDbContext.Routes.Find(id);
+            return View(routes);
         }
 
-        // POST: RoutesController/Edit/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit([FromForm] Routes request)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            _appDbContext.Routes.Update(request);
+            _appDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
 
-        // GET: RoutesController/Delete/5
         public IActionResult Delete(int id)
         {
-            return View();
+            Routes routes = _appDbContext.Routes.Find(id);
+            return View(routes);
+
         }
 
-        // POST: RoutesController/Delete/5
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public IActionResult Delete([FromForm] Routes request)
         {
-            try
+           int id = request.RouteId;
+            var route = _appDbContext.Routes.Find(id); // or FirstOrDefault, SingleOrDefault, etc.
+
+            if (route != null)
             {
-                return RedirectToAction(nameof(Index));
+                 _appDbContext.Routes.Remove(route);
+                //_appDbContext.SaveChanges();
+
+                //return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            //_appDbContext.Routes.Remove(request);
+            _appDbContext.SaveChanges();
+
+            return RedirectToAction(nameof(Index));
         }
     }
 }
+

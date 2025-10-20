@@ -1,17 +1,19 @@
-﻿using Azure.Core;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using ShuttleProject.Models;
+using ShuttleProject.Models.Data;
+using System.Linq;
 
 namespace ShuttleProject.Controllers
-{
+{                           
     public class ShuttlesController : Controller
     {
-        private AppDbContext _appDbContext;
+        private readonly AppDbContext _appDbContext;
         public ShuttlesController(AppDbContext appDbContext)
         {
             _appDbContext = appDbContext;
         }
+
         // GET: ShuttlesController
         public IActionResult Index()
         {
@@ -29,24 +31,37 @@ namespace ShuttleProject.Controllers
         // GET: ShuttlesController/Create
         public IActionResult Add()
         {
+            ViewData["Drivers"] = new SelectList(_appDbContext.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
             return View();
         }
-
-        // POST: ShuttlesController/Create
+            
+        // POST: /Shuttles/Add
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Add([FromForm] Shuttles request)
         {
+            ViewData["Drivers"] = new SelectList(_appDbContext.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
+
+            if (!ModelState.IsValid)
+                return View(request);
+
+            // handle sentinel (-1) and null
+            if (request.DriverId == null || request.DriverId == -1 || !_appDbContext.Drivers.Any(d => d.DriverId == request.DriverId.Value))
+            {
+                ModelState.AddModelError(nameof(request.DriverId), "Please select a valid driver.");
+                return View(request);
+            }
+
             _appDbContext.Shuttles.Add(request);
             _appDbContext.SaveChanges();
-
-            return View(RedirectToAction(nameof(Index)));  
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ShuttlesController/Edit/5
-        public IActionResult Edit(int id)
+        public IActionResult Edit(string id)
         {
-            return View();
+            Shuttles shuttle = _appDbContext.Shuttles.Find(id);
+            return View(shuttle);
         }
 
         // POST: ShuttlesController/Edit/5
@@ -57,13 +72,15 @@ namespace ShuttleProject.Controllers
             _appDbContext.Shuttles.Update(request);
             _appDbContext.SaveChanges();
 
-            return View(RedirectToAction(nameof(Index)));
+            return RedirectToAction(nameof(Index));
         }
 
         // GET: ShuttlesController/Delete/5
-        public IActionResult Delete(int id)
+        public IActionResult Delete(string id)
         {
-            return View();
+            Shuttles shuttle = _appDbContext.Shuttles.Find(id);
+            return View(shuttle);
+            
         }
 
         // POST: ShuttlesController/Delete/5
@@ -74,7 +91,7 @@ namespace ShuttleProject.Controllers
             _appDbContext.Shuttles.Remove(request);
             _appDbContext.SaveChanges();
 
-            return View(RedirectToAction(nameof(Index)));
+            return RedirectToAction(nameof(Index));
         }
     }
 }

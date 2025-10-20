@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace ShuttleProject.Models
+namespace ShuttleProject.Models.Data
 {
     public class AppDbContext : DbContext
     {

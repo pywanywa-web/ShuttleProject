@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using ShuttleProject.Models;
+using ShuttleProject.Models.Data;
 
 namespace ShuttleProject.Controllers
 {
@@ -58,12 +59,12 @@ namespace ShuttleProject.Controllers
         }
 
         //// GET: DriverController/Delete/5
-        //public IActionResult Delete(int id)
-        //{
-        //    Drivers driver = _appDbContext.Drivers.Find(id);
-        //    return View(driver);
-            
-        //}
+        public IActionResult Delete(int id)
+        {
+            Drivers driver = _appDbContext.Drivers.Find(id);
+            return View(driver);
+
+        }
 
         // POST: DriverController/Delete/5
         [HttpPost]

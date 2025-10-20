@@ -1,11 +1,13 @@
 ﻿@model ShuttleProject.Models.Passengers
 
-
+@{
+    ViewData["Title"] = "Create Passenger";
+}
 
 <form asp-action="Add" method="post">
     <div class="border p-3 mt-4">
         <div class="row pb-2">
-            <h1>Create Passenger Profile</h1>
+            <h1>Create Passenger</h1>
             <hr />
 
             <div class="mb-3">
@@ -13,30 +15,25 @@
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="mb-3">
                 <label asp-for="Email" class="form-label">Email</label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="mb-3">
                 <label asp-for="Type" class="form-label">Type</label>
-                <input asp-for="Type" class="form-control" />
+                <select asp-for="Type" asp-items="ViewBag.TypeOptions" class="form-select">
+                    <option value="">-- Select type --</option>
+                </select>
                 <span asp-validation-for="Type" class="text-danger"></span>
-            </div>
+            </div>                  
 
             <div class="mb-3">
                 <button class="btn btn-outline-dark">Submit</button>
-
-                <a asp-action="Index" class="btn btn-outline-success">
-                    Back to List
-                </a>
+                <a asp-action="Index" class="btn btn-outline-success">Back to List</a>
             </div>
-
-
         </div>
-
-
-
     </div>
-
 </form>

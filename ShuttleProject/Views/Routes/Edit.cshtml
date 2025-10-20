@@ -1,0 +1,33 @@
+﻿@model ShuttleProject.Models.Routes
+
+<form method="post" action="Edit">
+  @*   <input type="hidden" asp-for="RouteId" /> *@
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h2>Edit Route</h2>
+            <hr />
+        </div>
+        <div class="mb-3">
+            <label for="RouteId" class="form-label">Route Id</label>
+            <input class="form-control" asp-for="RouteId" />
+        </div>
+        <div class="mb-3">
+            <label for="RouteName" class="form-label">Route Name</label>
+            <input class="form-control" asp-for="RouteName" />
+        </div>
+        <div class="mb-3">
+            <label for="StartPoint" class="form-label">Start Point</label>
+            <input class="form-control" asp-for="StartPoint" />
+        </div>
+        <div class="mb-3">
+            <label for="EndPoint" class="form-label">End Point</label>
+            <input class="form-control" asp-for="EndPoint" />
+        </div>
+        <button class="btn btn-outline-dark">Submit</button>
+        <a href="/Routes/Index" class="btn btn-outline-success">
+            Back to list
+        </a>
+    </div>
+</form>
+
+

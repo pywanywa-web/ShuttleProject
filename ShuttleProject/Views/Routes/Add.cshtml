@@ -1,0 +1,45 @@
+﻿@model ShuttleProject.Models.Routes
+
+
+
+<form asp-action="Add" method="post">
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1>Create Route Profile</h1>
+            <hr />
+
+            <div class="mb-3">
+                <label asp-for="RouteId" class="form-label">Route Id</label>
+                <input asp-for="RouteId" class="form-control" />
+                <span asp-validation-for="RouteId" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="RouteName" class="form-label">Route Name</label>
+                <input asp-for="RouteName" class="form-control" />
+                <span asp-validation-for="RouteName" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="StartPoint" class="form-label">Start Point</label>
+                <input asp-for="StartPoint" class="form-control" />
+                <span asp-validation-for="StartPoint" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="EndPoint" class="form-label">End Point</label>
+                <input asp-for="EndPoint" class="form-control" />
+                <span asp-validation-for="EndPoint" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <button class="btn btn-outline-dark">Submit</button>
+
+                <a asp-action="Index" class="btn btn-outline-success">
+                    Back to List
+                </a>
+            </div>
+
+
+        </div>
+
+    </div>
+
+</form>

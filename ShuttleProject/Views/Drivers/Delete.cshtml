@@ -1,6 +1,7 @@
 ﻿@model ShuttleProject.Models.Drivers
 
-<form method="post">
+<form method="post" asp-action="Delete">
+    @Html.AntiForgeryToken()
     <input type="hidden" asp-for="DriverId" />
     <div class="border p-3 mt-4">
         <div class="row pb-2">

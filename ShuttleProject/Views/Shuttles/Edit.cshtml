@@ -1,0 +1,50 @@
+﻿@model ShuttleProject.Models.Shuttles
+
+<form asp-action="Edit" method="post">
+    @* <input type="hidden" asp-for="ShuttleId"" /> *@
+    <div class="border p-3 mt-4">
+        <div class="row pb-2">
+            <h1>Edit Shuttle Profile</h1>
+            <hr />
+            <div>
+                <div class="mb-3">
+                    <label asp-for="ShuttleId" class="form-label">Shuttle Id</label>
+                    <input asp-for="ShuttleId" class="form-control" />
+                    <span asp-validation-for="ShuttleId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="PlateNumber" class="form-label">Plate Number</label>
+                    <input asp-for="PlateNumber" class="form-control" />
+                    <span asp-validation-for="PlateNumber" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Capacity"" class="form-label">Capacity</label>
+                    <input asp-for="Capacity" class="form-control" />
+                    <span asp-validation-for="Capacity" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label">Status</label>
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label for="DriverId" class="form-label">Driver</label>
+                    <select asp-for="DriverId" class="form-control" asp-items="@(ViewData["Drivers"] as IEnumerable<SelectListItem>)">
+                        <option value="">-- Select driver --</option>
+                    </select>
+                    <span asp-validation-for="DriverId" class="text-danger"></span>
+                </div>
+
+
+
+                <div class="mb-3">
+                    <button class="btn btn-outline-dark">Submit</button>
+
+                    <a asp-action="Index" class="btn btn-outline-success">
+                        Back to List
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

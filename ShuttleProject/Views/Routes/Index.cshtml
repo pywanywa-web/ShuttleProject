@@ -1,0 +1,42 @@
+﻿@model List<Routes>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>Routes Index Page</h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Routes" asp-action="Add" class="btn btn-outline-primary">Add New Route</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>RouteId</th>
+            <th>Route Name</th>
+            <th>Start Point</th>
+            <th>End Point</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+                <td>@Model[i].RouteId</td>
+                <td>@Model[i].RouteName</td>
+                <td>@Model[i].StartPoint</td>   
+                <td>@Model[i].EndPoint</td> 
+              
+                <td>
+                    <a asp-controller="Routes" asp-action="Edit" asp-route-id="@Model[i].RouteId" class="btn btn-outline-warning btn-sm">Edit</a>
+                    <a asp-controller="Routes" asp-action="Delete" asp-route-id="@Model[i].RouteId" class="btn btn-outline-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
