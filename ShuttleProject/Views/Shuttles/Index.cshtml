@@ -1,0 +1,53 @@
+﻿ @model List<Shuttles>
+
+ <div class="container p-3">
+        <div class="row pt-4">
+            <div class="col-6">
+                <h2>Shuttles Index Page</h2>
+            </div>
+               <div class="col-6 text-end">
+                    <a href="/Shuttles/Add" class="btn btn-outline-primary">
+                    Add New Shuttle
+                    </a>
+               </div>
+        </div>
+ </div>
+   
+  
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ShuttleId</th>
+                <th>Plate Number</th>
+                <th>Capacity</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                <tr>
+                    <td>@Model[i].ShuttleId</td>
+                    <td>@Model[i].PlateNumber</td>
+                    <td>@Model[i].Capacity</td>
+                    <td>@Model[i].Status</td>
+                    <td>
+
+                        <a href="/Shuttles/Edit/@Model[i].ShuttleId"
+                           class="btn btn-outline-warning btn-sm">
+                            Edit
+                        </a>
+
+                        <a href="/Shuttles/Delete/@Model[i].ShuttleId"
+                           class="btn btn-outline-danger btn-sm">
+                            Delete
+                        </a>
+
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>

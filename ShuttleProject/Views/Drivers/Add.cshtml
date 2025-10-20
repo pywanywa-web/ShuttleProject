@@ -1,0 +1,43 @@
+﻿@model ShuttleProject.Models.Drivers
+
+
+
+<form asp-action="Add" method="post">
+   <div class="border p-3 mt-4">
+      <div class="row pb-2">
+          <h1>Create Driver Profile</h1>
+          <hr />
+                
+            <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+                <div class="mb-3">
+                    <label asp-for="LicenseNo" class="form-label">License Number</label>
+                    <input asp-for="LicenseNo" class="form-control" />
+                    <span asp-validation-for="LicenseNo" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Contact" class="form-label">Contact</label>
+                    <input asp-for="Contact" class="form-control" type="tel"/>
+                    <span asp-validation-for="Contact" class="text-danger"></span>
+                </div>
+
+            <div class="mb-3">
+                <button class="btn btn-outline-dark">Submit</button>
+                
+                <a asp-action="Index" class="btn btn-outline-success">
+                    Back to List
+                </a>
+            </div>
+
+
+      </div>
+            
+          
+          
+   </div>
+
+</form>
+
