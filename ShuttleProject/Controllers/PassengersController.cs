@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using ShuttleProject.Models;
-using ShuttleProject.Models.Data;
+using ShuttleProject.Models.Data.MonitoringSystem;
+//using ShuttleProject.Models.Data;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -9,17 +9,17 @@ namespace ShuttleProject.Controllers
 {
     public class PassengersController : Controller
     {
-        private AppDbContext _appDbContext;
+        private MonitoringSystemContext _context;
 
-        public PassengersController(AppDbContext appDbContext)
+        public PassengersController(MonitoringSystemContext context)
         {
-            _appDbContext = appDbContext;
+            _context = context;
         }   
         // GET: PassengersController
         public IActionResult Index()
         {
-            List<Passengers> passengers = _appDbContext.Passengers.OrderBy(s => s.PassengerId).ToList();
-            return View(passengers);
+            List<Passenger> passenger = _context.Passengers.OrderBy(s => s.PassengerId).ToList();
+            return View(passenger);
         }
 
         // GET: PassengersController/Details/5
@@ -38,7 +38,7 @@ namespace ShuttleProject.Controllers
         // POST: PassengersController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Add([FromForm] Passengers request)
+        public IActionResult Add([FromForm] Passenger request)
         {
             if (!ModelState.IsValid)
             {
@@ -46,8 +46,8 @@ namespace ShuttleProject.Controllers
                 return View(request);
             }
 
-            _appDbContext.Passengers.Add(request);
-            _appDbContext.SaveChanges();
+            _context.Passengers.Add(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -55,7 +55,11 @@ namespace ShuttleProject.Controllers
         // GET: PassengersController/Edit/5
         public IActionResult Edit(int id)
         {
-            Passengers passenger = _appDbContext.Passengers.Find(id);
+            Passenger? passenger = _context.Passengers.Find(id);
+            if (passenger == null)
+            {
+                return NotFound();
+            }
             ViewBag.TypeOptions = GetTypeOptions();
             return View(passenger);
         }
@@ -63,7 +67,7 @@ namespace ShuttleProject.Controllers
         // POST: PassengersController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit([FromForm] Passengers request)
+        public IActionResult Edit([FromForm] Passenger request)
         {
             if (!ModelState.IsValid)
             {
@@ -71,8 +75,8 @@ namespace ShuttleProject.Controllers
                 return View(request);
             }
 
-            _appDbContext.Passengers.Update(request);
-            _appDbContext.SaveChanges();
+            _context.Passengers.Update(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -80,17 +84,21 @@ namespace ShuttleProject.Controllers
         // GET: PassengersController/Delete/5
         public IActionResult Delete(int id)
         {
-            Passengers passenger = _appDbContext.Passengers.Find(id);
+            Passenger? passenger = _context.Passengers.Find(id);
+            if (passenger == null)
+            {
+                return NotFound();
+            }
             return View(passenger);
         }
 
         // POST: PassengersController/Delete/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete([FromForm] Passengers request)
+        public IActionResult Delete([FromForm] Passenger request)
         {
-            _appDbContext.Passengers.Remove(request);
-            _appDbContext.SaveChanges();
+            _context.Passengers.Remove(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));     
         }

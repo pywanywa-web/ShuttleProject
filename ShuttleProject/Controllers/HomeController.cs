@@ -1,9 +1,11 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ShuttleProject.Models;
 
 namespace ShuttleProject.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
@@ -12,7 +14,10 @@ namespace ShuttleProject.Controllers
         {
             _logger = logger;
         }
-
+        //public IActionResult Dashboard()
+        //{
+        //    return View();
+        //}
         public IActionResult Index()
         {
             return View();

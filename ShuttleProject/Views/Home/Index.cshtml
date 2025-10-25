@@ -1,12 +1,27 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity
+@using ShuttleProject.Models.Data
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+@{
     ViewData["Title"] = "Home Page";
+
+    var user = await UserManager.GetUserAsync(User);
 }
 
+@* <style>
+    body {
+        background-image: url(wwwroot/images/Google Images.jpg );
+        background-size: cover; /* Makes it fill the screen */
+        background-repeat: no-repeat; /* Prevents tiling */
+        background-attachment: fixed; /* Keeps image fixed while scrolling */
+        background-position: center; /* Centers the image */
+        color: white; /* Optional: makes text visible */
+    }
+</style> *@
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-
-
+    <h1 class="display-4">Welcome @($"{user.FirstName} {user.LastName}")</h1>
+    
 
     <div class="mb-3">
         <a href="/Drivers" class="btn btn-outline-success">
@@ -24,6 +39,10 @@
         <a href="/Routes" class="btn btn-outline-success">
             Route
         </a>
+
+        <a href="/Trip" class="btn btn-outline-success">
+            Trip
+            </a>
 
     </div>
 

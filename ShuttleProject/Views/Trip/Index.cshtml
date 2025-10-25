@@ -1,0 +1,79 @@
+﻿@model List<ShuttleProject.Models.Data.MonitoringSystem.Trip>
+
+@{
+    ViewData["Title"] = "Trips List";
+}
+@inject Microsoft.Extensions.Configuration.IConfiguration Configuration
+@{
+    var apiKey = Configuration["GoogleMaps:ApiKey"];
+}
+
+    <title>Shuttle Monitoring Map</title>
+    <script async 
+            src="https://maps.googleapis.com/maps/api/js?key=@apiKey&callback=initMap&libraries=places">
+    </script>
+    <script>
+        function initMap() {
+            const center = { lat: 6.673175, lng: -1.565423 }; 
+            const map = new google.maps.Map(document.getElementById("map"), {
+                zoom: 12,
+                center: center,
+            });
+
+            
+            const marker = new google.maps.Marker({
+                position: center,
+                map: map,
+                title: "Shuttle Location"
+            });
+        }
+    </script> 
+
+    <h2>Shuttle Trip Monitoring</h2>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+
+<div class="container p-3">
+    <div class="row pt-4">
+        <div class="col-6">
+            <h2>Trips </h2>
+        </div>
+        <div class="col-6 text-end">
+            <a asp-controller="Trip" asp-action="Add" class="btn btn-outline-primary">Add New Trip</a>
+        </div>
+    </div>
+</div>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>No.</th>
+            @* <th>ShuttleId</th> *@
+            <th>RouteId</th>
+            <th>Departure Time</th>
+            <th>Arrival Time</th>
+            <th>Trip Status</th>
+            <th>PassengerId</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            <tr>
+
+                <td>@Model[i].TripId</td>
+                @* <td>@Model[i]ShuttleId</td> *@
+                <td>@Model[i]RouteId</td>
+                <td>@Model[i].DepartutreTime</td>
+                <td>@Model[i].ArrivalTime</td>
+                <td>@Model[i].TripStatus</td>
+                <td>@Model[i].PassengerId</td>
+                <td>
+                    <a asp-controller="Trip" asp-action="Edit" asp-route-id="@Model[i].ShuttleId" class="btn btn-outline-warning btn-sm">Edit</a>
+           
+               </td>
+            </tr>
+        }
+    </tbody>
+</table>

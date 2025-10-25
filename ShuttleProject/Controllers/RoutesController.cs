@@ -1,23 +1,24 @@
-﻿
-using Microsoft.AspNetCore.Mvc;
-using ShuttleProject.Models;
-using ShuttleProject.Models.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using ShuttleProject.Models.Data.MonitoringSystem;
+using Route = ShuttleProject.Models.Data.MonitoringSystem.Route;
+
 
 namespace ShuttleProject.Controllers
 {
     public class RoutesController : Controller
     {
-        private AppDbContext _appDbContext;
+        private MonitoringSystemContext _context;
 
-        public RoutesController(AppDbContext appDbContext)
+        public RoutesController (MonitoringSystemContext context)
         {
-            _appDbContext = appDbContext;
+            _context = context;
         }
         public IActionResult Index()
         {
 
-            List<Routes> routes = _appDbContext.Routes.OrderBy(r => r.RouteId).ToList();
-            return View(routes);
+            List<Route> route = _context.Routes.OrderBy(static r => r.RouteId).ToList();
+            return View(route);
         }
 
         public IActionResult Add()
@@ -26,11 +27,11 @@ namespace ShuttleProject.Controllers
         }
 
         [HttpPost]
-        public IActionResult Add([FromForm] Routes request)
+        public IActionResult Add([FromForm] Route request)
         {
 
-            _appDbContext.Routes.Add(request);
-            _appDbContext.SaveChanges();
+            _context.Routes.Add(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -38,42 +39,49 @@ namespace ShuttleProject.Controllers
 
         public IActionResult Edit(int id)
         {
-
-            Routes routes = _appDbContext.Routes.Find(id);
-            return View(routes);
+            Route? route = _context.Routes.Find(id);
+            if (route == null)
+            {
+                return NotFound();
+            }
+            return View(route);
         }
 
         [HttpPost]
-        public IActionResult Edit([FromForm] Routes request)
+        public IActionResult Edit([FromForm] Route request)
         {
-            _appDbContext.Routes.Update(request);
-            _appDbContext.SaveChanges();
+            _context.Routes.Update(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
 
         public IActionResult Delete(int id)
         {
-            Routes routes = _appDbContext.Routes.Find(id);
-            return View(routes);
+            Route? route = _context.Routes.Find(id);
+            if (route == null)
+            {
+                return NotFound();
+            }
+            return View(route);
 
         }
 
         [HttpPost]
-        public IActionResult Delete([FromForm] Routes request)
+        public IActionResult Delete([FromForm] Route request)
         {
            int id = request.RouteId;
-            var route = _appDbContext.Routes.Find(id); // or FirstOrDefault, SingleOrDefault, etc.
+            var route = _context.Routes.Find(id); // or FirstOrDefault, SingleOrDefault, etc.
 
             if (route != null)
             {
-                 _appDbContext.Routes.Remove(route);
+                 _context.Routes.Remove(route);
                 //_appDbContext.SaveChanges();
 
                 //return RedirectToAction(nameof(Index));
             }
             //_appDbContext.Routes.Remove(request);
-            _appDbContext.SaveChanges();
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }

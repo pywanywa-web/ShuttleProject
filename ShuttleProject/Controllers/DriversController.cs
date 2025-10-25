@@ -1,27 +1,35 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using ShuttleProject.Models;
-using ShuttleProject.Models.Data;
+using Microsoft.EntityFrameworkCore;
+using ShuttleProject.Models.Data.MonitoringSystem;
 
 namespace ShuttleProject.Controllers
 {
     public class DriversController : Controller
     {
-        private AppDbContext _appDbContext;
-        public DriversController(AppDbContext appDbContext)
+        private MonitoringSystemContext _context;
+        public DriversController(MonitoringSystemContext context)
         {
-            _appDbContext = appDbContext;
-        }   
+            _context = context;
+        }
         // GET: DriverController
-        public ActionResult Index()
-        {
-            List<Drivers> drivers = _appDbContext.Drivers.OrderBy(s => s.DriverId).ToList();
+        public async Task<ActionResult> Index()
+        { 
+            var drivers = await _context.Drivers
+                .AsNoTracking()
+                .OrderBy(d => d.DriverId)
+                .ToListAsync();
+
             return View(drivers);
         }
 
         // GET: DriverController/Details/5
         public ActionResult Details(int id)
         {
-            Drivers driver = _appDbContext.Drivers.Find(id);
+            Driver driver = _context.Drivers.Find(id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
             return View(driver);
         }
 
@@ -33,10 +41,10 @@ namespace ShuttleProject.Controllers
 
         // POST: DriverController/Create
         [HttpPost]
-        public IActionResult Add([FromForm] Drivers request)
+        public IActionResult Add(Driver request)
         {
-            _appDbContext.Drivers.Add(request); 
-            _appDbContext.SaveChanges();
+            _context.Drivers.Add(request); 
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -44,16 +52,20 @@ namespace ShuttleProject.Controllers
         // GET: DriverController/Edit/5
         public IActionResult Edit(int id)
         {
-            Drivers driver = _appDbContext.Drivers.Find(id);
+            var driver = _context.Drivers.Where(x => x.DriverId == id).FirstOrDefault();
+            if (driver == null)
+            {
+                return NotFound();
+            }
             return View(driver);
         }
 
         // POST: DriverController/Edit/5
         [HttpPost]
-        public IActionResult Edit([FromForm] Drivers request)
+        public IActionResult Edit(Driver request)
         {
-            _appDbContext.Drivers.Update(request);
-            _appDbContext.SaveChanges();
+            _context.Drivers.Update(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
         }
@@ -61,7 +73,11 @@ namespace ShuttleProject.Controllers
         //// GET: DriverController/Delete/5
         public IActionResult Delete(int id)
         {
-            Drivers driver = _appDbContext.Drivers.Find(id);
+            Driver? driver = _context.Drivers.Find(id);
+            if (driver == null)
+            {
+                return NotFound();
+            }
             return View(driver);
 
         }
@@ -69,12 +85,12 @@ namespace ShuttleProject.Controllers
         // POST: DriverController/Delete/5
         [HttpPost]
     
-        public IActionResult Delete([FromForm] Drivers request)
+        public IActionResult Delete(Driver request)
         {
-            _appDbContext.Drivers.Remove(request);
-            _appDbContext.SaveChanges();
+            _context.Drivers.Remove(request);
+            _context.SaveChanges();
 
             return RedirectToAction(nameof(Index));
-        }
+        }   
     }
-}
+}           

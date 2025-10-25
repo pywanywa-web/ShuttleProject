@@ -1,4 +1,4 @@
-﻿@model ShuttleProject.Models.Shuttles
+﻿@model ShuttleProject.Models.Data.MonitoringSystem.Shuttle
 
 <form asp-action="Edit" method="post">
     @* <input type="hidden" asp-for="ShuttleId"" /> *@
@@ -27,13 +27,13 @@
                     <input asp-for="Status" class="form-control" />
                     <span asp-validation-for="Status" class="text-danger"></span>
                 </div>
-                <div class="mb-3">
+                @* <div class="mb-3">
                     <label for="DriverId" class="form-label">Driver</label>
                     <select asp-for="DriverId" class="form-control" asp-items="@(ViewData["Drivers"] as IEnumerable<SelectListItem>)">
                         <option value="">-- Select driver --</option>
                     </select>
                     <span asp-validation-for="DriverId" class="text-danger"></span>
-                </div>
+                </div> *@
 
 
 
