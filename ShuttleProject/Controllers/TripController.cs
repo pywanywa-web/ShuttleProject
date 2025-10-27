@@ -90,6 +90,8 @@ namespace ShuttleProject.Controllers
         }
         public IActionResult Edit(int id)
         {
+            ViewData["Routes"] = new SelectList(_context.Routes.OrderBy(r => r.RouteId).ToList(), "RouteId", "RouteName");
+
             Trip trip = _context.Trips.Find(id);
             if (trip == null)
             {
@@ -104,6 +106,25 @@ namespace ShuttleProject.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([FromForm] Trip request)
         {
+
+            ViewData["Routes"] = new SelectList(_context.Routes.OrderBy(r => r.RouteId).ToList(), "RouteId", "RouteName");
+
+            if (!ModelState.IsValid)
+                return View(request);
+
+            // handle sentinel (-1) and null
+            if (request.RouteId == -1 || !_context.Routes.Any(r => r.RouteId == request.RouteId))
+            {
+                ModelState.AddModelError(nameof(request.RouteId), "Please select a valid RouteName.");
+                return View(request);
+            }
+
+            ViewData["Passengers"] = new SelectList(_context.Passengers.OrderBy(p => p.PassengerId).ToList(), "PassengerId", "Name");
+
+            if (!ModelState.IsValid)
+                return View(request);
+
+
             _context.Trips.Update(request);
             _context.SaveChanges();
 

@@ -35,7 +35,7 @@ namespace ShuttleProject.Controllers
         // GET: ShuttlesController/Create
         public ActionResult Add()
         {
-            ViewData["Drivers"] = new SelectList(_context.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
+            //ViewData["Drivers"] = new SelectList(_context.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
             return View();
         }
             
@@ -44,17 +44,17 @@ namespace ShuttleProject.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Add(ShuttleViewModel model)
         {
-            ViewData["Drivers"] = new SelectList(_context.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
+            //ViewData["Drivers"] = new SelectList(_context.Drivers.OrderBy(d => d.DriverId).ToList(), "DriverId", "Name");
 
-            if (!ModelState.IsValid)
-                return View(model);
+            //if (!ModelState.IsValid)
+            //    return View(model);
 
-            // handle sentinel (-1) and null
-            if (model.DriverId == -1 || !_context.Drivers.Any(d => d.DriverId == model.DriverId))
-            {
-                ModelState.AddModelError(nameof(model.DriverId), "Please select a valid driver.");
-                return View(model);
-            }
+            //// handle sentinel (-1) and null
+            //if (model.DriverId == -1 || !_context.Drivers.Any(d => d.DriverId == model.DriverId))
+            //{
+            //    ModelState.AddModelError(nameof(model.DriverId), "Please select a valid driver.");
+            //    return View(model);
+            //}
 
             Shuttle shuttle = new()
             {

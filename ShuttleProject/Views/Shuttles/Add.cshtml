@@ -33,13 +33,13 @@
                 <span asp-validation-for="Capacity" class="text-danger"></span>
              </div>
 
-            <div class="mb-3">
+            @* <div class="mb-3">
                 <label asp-for="DriverId" class="form-label">Driver</label>
                 <select asp-for="DriverId" class="form-control" asp-items="@(ViewData["Drivers"] as IEnumerable<SelectListItem>)">
                     <option value="">-- Select driver --</option>
                 </select>
                 <span asp-validation-for="DriverId" class="text-danger"></span>
-            </div>
+            </div> *@
 
             <div class="mb-3">
                 <button class="btn btn-outline-primary">Submit</button>

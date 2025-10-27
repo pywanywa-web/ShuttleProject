@@ -64,13 +64,13 @@
 
                 <td>@Model[i].TripId</td>
                 @* <td>@Model[i]ShuttleId</td> *@
-                <td>@Model[i]RouteId</td>
+                <td>@Model[i].RouteId</td>
                 <td>@Model[i].DepartutreTime</td>
                 <td>@Model[i].ArrivalTime</td>
                 <td>@Model[i].TripStatus</td>
                 <td>@Model[i].PassengerId</td>
                 <td>
-                    <a asp-controller="Trip" asp-action="Edit" asp-route-id="@Model[i].ShuttleId" class="btn btn-outline-warning btn-sm">Edit</a>
+                    <a asp-controller="Trip" asp-action="Edit" asp-route-id="@Model[i].TripId" class="btn btn-outline-warning btn-sm">Edit</a>
            
                </td>
             </tr>
